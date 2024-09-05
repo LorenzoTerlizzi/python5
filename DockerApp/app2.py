@@ -1,0 +1,1 @@
+print("Io sono app 2")
