@@ -53,6 +53,8 @@ def process_json1():
         return json.dumps(jsonResp)
     else:
         return 'Content-Type not supported!'
+    
+
 
 if __name__ =='__main__':
     api.run(host = "127.0.0.1", port = 8080, ssl_context='adhoc')
