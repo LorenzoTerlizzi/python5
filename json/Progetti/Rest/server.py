@@ -34,7 +34,7 @@ def process_json():
 
 
 
-@api.route('/read', methods = ['POST'])
+@api.route('/read', methods = ['GET'])
 def process_json1():
     print("Ricevuta chiamata")
 

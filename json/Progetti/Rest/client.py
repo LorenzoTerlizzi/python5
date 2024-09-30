@@ -41,14 +41,14 @@ if comando == "1":
     response = requests.post(api_url, json = jsonDataRequest, verify=False, auth=HTTPBasicAuth(username, password))
     print(response.status_code)
     print(response.headers["Content-Type"])
-    data1 = response.json()
+
     if (type(response.json()) is list):
         print_list(response.json())
 
 if comando == "2":
     api_url = "https://127.0.0.1:8080/read"
 
-    response = requests.post(api_url, verify=False, auth=HTTPBasicAuth(username, password))
+    response = requests.get(api_url, verify=False, auth=HTTPBasicAuth(username, password))
     print(response.status_code)
     print(response.headers["Content-Type"])
     if (type(response.json()) is list):
@@ -61,7 +61,7 @@ if comando == "3":
     response = requests.post(api_url, json = jsonDataRequest, verify=False, auth=HTTPBasicAuth(username, password))
     print(response.status_code)
     print(response.headers["Content-Type"])
-    data1 = response.json()
+    
     if (type(response.json()) is list):
         print_list(response.json())
 
@@ -72,7 +72,7 @@ if comando == "4":
     response = requests.post(api_url, json = jsonDataRequest, verify=False, auth=HTTPBasicAuth(username, password))
     print(response.status_code)
     print(response.headers["Content-Type"])
-    data1 = response.json()
+    
     if (type(response.json()) is list):
         print_list(response.json())
 
