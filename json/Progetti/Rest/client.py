@@ -69,6 +69,12 @@ if comando == "3":
 if comando == "4":
     api_url = "https://127.0.0.1:8080/delete"
 
+    response = requests.post(api_url, verify=False, auth=HTTPBasicAuth(username, password))
+    print(response.status_code)
+    print(response.headers["Content-Type"])
+    data1 = response.json()
+    if (type(response.json()) is list):
+        print_list(response.json())
 
 
 

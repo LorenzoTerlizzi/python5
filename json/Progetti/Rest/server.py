@@ -49,7 +49,27 @@ def process_json1():
         jsonReq = request.json
         print(jsonReq)
         print(cittadini)
-        jsonResp = {"Esito":"ok","Msg":"Dato inserito"}
+        jsonResp = {"Esito":"ok","Msg":"Dato letto"}
+        return json.dumps(jsonResp)
+    else:
+        return 'Content-Type not supported!'
+    
+@api.route('/delete', methods = ['POST'])
+def process_json1():
+    print("Ricevuta chiamata")
+
+    #lettura dati basic authentication per VERIFICA
+    auth = request.headers.get('Authorization')
+    auth = auth[6:]
+    security_data = base64.b64decode(auth)
+    print(security_data)
+    content_type = request.headers.get('Content-Type')
+    print("Ricevuta chiamata " + content_type)
+    if (content_type == 'application/json'):
+        jsonReq = request.json
+        print(jsonReq)
+        cittadini.remove(jsonReq)
+        jsonResp = {"Esito":"ok","Msg":"Dato eliminato"}	
         return json.dumps(jsonResp)
     else:
         return 'Content-Type not supported!'
