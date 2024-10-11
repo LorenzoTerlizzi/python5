@@ -11,6 +11,11 @@ def RichiediDatiCittadino()-> dict:
     codFiscale = input("Inserisci codice fiscale: ")
     jRequest = {"nome":nome, "cognome":cognome, "data nascita":dataNascita,"codice fiscale":codFiscale }
     return jRequest
+ 
+def CercaCittadino():
+    codFiscale = input("inserisci codice fiscale: ")
+    jRequest = {"codice fiscale": codFiscale}
+    return jRequest
 
 def CreaInterfaccia():
     print("Operazioni disponibili:")
@@ -21,11 +26,17 @@ def CreaInterfaccia():
     print("5. Exit")
 
 CreaInterfaccia()
-sOper = input("Seleziona operazione: ")
+sOper = input("Seleziona operazione: " )
 while (sOper != "5"):
     if sOper=="1":
         api_url = base_url + "/add_cittadino"
         jsonDataRequest = RichiediDatiCittadino()
+    
+    elif sOper == "2":
+        api_url = base_url + "/get_cittadino"
+        jsonDataRequest = CercaCittadino()
+        
+
         try:
             response = requests.post(api_url,json=jsonDataRequest)
             print(response.status_code)
