@@ -115,5 +115,5 @@ def elimina_cittadino():
     else:
         return jsonify({"Esito": "002", "Msg": "Formato richiesta non valido"}), 200
 
-api.run(host="127.0.0.1", port=8080)
+api.run(host="127.0.0.1", port=8080, ssl_context="adhoc")
 
