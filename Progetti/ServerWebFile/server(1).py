@@ -3,7 +3,7 @@ import requests, json, sys
 import subprocess
 from myjson import *
 import urllib3
-
+import base64
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -28,13 +28,34 @@ def question():
     
     if not domanda:
         return "<HTML><BODY><h3>Domanda non ricevuta<BODY><HTML>"
-    else:
+    elif not request.form['file']:
         domanda += " tradotto in italiano"
         jsonDataRequest = {"contents": [{"parts": [{"text": domanda}]}]}
         response = requests.post(api_url, json=jsonDataRequest, verify = False)
         if response.status_code == 200:
             dResponse = response.json()
             sTestoPrimaRisposta = dResponse['candidates'][0]['content']['parts'][0]['text']
+    else:
+        file = request.files['filedomanda']
+        jsonDataRequest = {
+        "contents":[
+            {
+            "parts":[
+                {"text": "What is this picture?"},
+                {
+                "inline_data": {
+                    "mime_type":"image/jpeg",
+                    "data": base64.b64encode(file.read()).decode("utf-8")
+                }
+                }
+            ]
+            }
+        ]
+        }
+        response = requests.post(api_url,json=jsonDataRequest)
+        dResponse = response.json()
+        risposta = dResponse['candidates'][0]['content']['parts'][0]['text']
+        return '<HTML><BODY>' + risposta + '</BODY></HTML>'
     
         # if not f:
         #     return "<HTML><BODY><h3>File non ricevuto<BODY><HTML>"
