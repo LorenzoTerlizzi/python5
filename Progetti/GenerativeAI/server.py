@@ -9,6 +9,12 @@ api = Flask("__name__")
 def index():
     return render_template('sendfile.html')
 
+@api.route('/mansendfile', methods = ['POST'])
+def index():
+    sMailRicevuta=request.form("email")
+    return render_template('sendfile.html')
+
+
 # @api.route('/regok', methods = ['GET'])
 # def index():
 #     return render_template('reggok.html')

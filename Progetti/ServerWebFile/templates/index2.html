@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            color: white;
+            background: #645454;
+        } 
+        /* * {box-sizing: border-box} */
+        input[type=text], input[type=description],input[type=file] {
+        width: 100%;
+        font-size: 20px;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #bdb9b9;
+        }
+
+button {
+   padding: 10px;
+   color: white;
+   background-color: #22a543;
+}
+.cancel {
+   padding: 10px;
+   color: white;
+   background-color: #ff3d2f;
+}
+    </style>
+</head>
+<body>
+    <h1 class="title">GENERATIVE IA</h1>
+    <form style="width: 100%;", method="POST" action="mansendfile" enctype="multipart/form-data">        <div>
+            <label for="question">Inserisci una domanda:</label>
+            <br>
+            <textarea name="question" id="question", cols="50", rows="10" style="border: 1px black solid"></textarea>
+            <br>
+            <br>  
+            <p>Vuoi inserire un file?</p>
+            <label for="file"><b>Scegli file locale</b></label>
+            <input type="file" name="file" id="file"/><br>
+
+        </div>
+        <button type="button" class="cancel">Cancel</button>
+        <button type="submit" class="signup">Sumbit</button>
+</body>
+</html>
