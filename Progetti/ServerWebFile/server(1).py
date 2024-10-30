@@ -26,22 +26,24 @@ def question():
     domanda = request.form['question']
     print("domanda: " + domanda)
     
+    
     if not domanda:
         return "<HTML><BODY><h3>Domanda non ricevuta<BODY><HTML>"
-    elif not request.form['file']:
+    elif not request.files['filedomanda']:
         domanda += " tradotto in italiano"
         jsonDataRequest = {"contents": [{"parts": [{"text": domanda}]}]}
         response = requests.post(api_url, json=jsonDataRequest, verify = False)
         if response.status_code == 200:
             dResponse = response.json()
             sTestoPrimaRisposta = dResponse['candidates'][0]['content']['parts'][0]['text']
+        return '<HTML><BODY>' + sTestoPrimaRisposta + '</BODY></HTML>'
     else:
         file = request.files['filedomanda']
         jsonDataRequest = {
         "contents":[
             {
             "parts":[
-                {"text": "What is this picture?"},
+                {"text": domanda},
                 {
                 "inline_data": {
                     "mime_type":"image/jpeg",
@@ -52,26 +54,10 @@ def question():
             }
         ]
         }
-        response = requests.post(api_url,json=jsonDataRequest)
+        response = requests.post(api_url,json=jsonDataRequest, verify=False)
         dResponse = response.json()
         risposta = dResponse['candidates'][0]['content']['parts'][0]['text']
         return '<HTML><BODY>' + risposta + '</BODY></HTML>'
-    
-        # if not f:
-        #     return "<HTML><BODY><h3>File non ricevuto<BODY><HTML>"
-        # else:
-        #     f = request.form['file']
-        #     ComponiJsonPerImmagine(f)
-        #     dJsonRequest = JsonDeserialize("request.json")
-        #     dJsonRequest["contents"][0]["parts"][0]["text"] = domanda
-        #     response = requests.post(api_url, json=dJsonRequest, verify = False)
-        #     if response.status_code == 200:
-        #         dResponse = response.json()
-        #         sTestoPrimaRisposta = dResponse['candidates'][0]['content']['parts'][0]['text']
-        #         print()
-                
-
-    return "<HTML><BODY><h3>Domanda ricevuta<br><hr><h5> Domanda: " + domanda + "<br>" + sTestoPrimaRisposta +"</BODY></HTML>"
 
 
 

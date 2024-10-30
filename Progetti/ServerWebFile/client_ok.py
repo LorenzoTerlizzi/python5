@@ -45,10 +45,9 @@ api_url = base_url + sGoogleApiKey
 iFlag = 0
 while iFlag==0:
     print("\nOperazioni disponibili:")
-    print("1. Crea una favola")
-    print("2. Rispondere ad una domanda")
-    print("3. Rispondere ad una domanda su un file img")
-    print("4. Esci")
+    print("1. Inserisci una domanda")
+    print("2. Richiedi una domanda su un'immagine")
+    print("3. Esci")
 
 
     try:
@@ -59,45 +58,32 @@ while iFlag==0:
 
 
     if iOper == 1:
-        sArgomento = input("Inserisci l'argomento della favola: " )
-        sArgomento2 = "Crea una favola su " + sArgomento + "in italiano"
-        jsonDataRequest = {"contents": [{"parts": [{"text": sArgomento2}]}]}
-        #jsonDataRequest["contents"][0]["parts"][0]["text"] = sArgomento
-        response = requests.post(api_url, json=jsonDataRequest, verify=False)
-        if response.status_code == 200:
-            dResponse = response.json()
-            sTestoPrimaRisposta = dResponse['candidates'][0]['content']['parts'][0]['text']
-            print(sTestoPrimaRisposta)
+        sDomanda = input("Inserisci domanda: ")
+        jsonDataRequest = {"contents": [{"parts":[{"text": sDomanda}]}]}
+        response = requests.post(api_url,json=jsonDataRequest,verify=True)
+        if response.status_code==200:
+            #print(response.json())
+            lListaRisposte = response.json()["candidates"]
+            for dRisposta in lListaRisposte:
+                sTestoRisposta = dRisposta["content"]["parts"][0]["text"]
+                print(sTestoRisposta)
 
     elif iOper == 2:
+        sImage = input("Inserisci file img da analizzare: ")
         sDomanda = input("Inserisci la domanda: ")
-        sDomanda += "tradotto in italiano"
-        dJsonRequest["contents"][0]["parts"][0]["text"] = sDomanda
-        response = requests.post(api_url, json=dJsonRequest, verify = False)
-        if response.status_code == 200:
-            dResponse = response.json()
-            sTestoPrimaRisposta = dResponse['candidates'][0]['content']['parts'][0]['text']
-            print()
-            print(sTestoPrimaRisposta)
-
+        ComponiJsonPerImmagine(sImage)
+        jsonDataRequest = JsonDeserialize("request.json")
+        jsonDataRequest["contents"][0]["parts"][0]["text"]=sDomanda
+        response = requests.post(api_url,json=jsonDataRequest,verify=True)
+        if response.status_code==200:
+            #print(response.json())
+            lRisposte = response.json()['candidates']
+            for risposta in lRisposte:
+                sTestoRisposta = risposta["content"]["parts"][0]["text"]
+                print(sTestoRisposta)
     elif iOper == 3:
-        sFile = input("Inserisci il path competo del file che vuoi analizzare: ")
-        sDomanda = input("Inserisci la domanda: ")
-        sDomanda += "tradotto in italiano"
-        ComponiJsonPerImmagine(sFile)
-        dJsonRequest = JsonDeserialize("request.json")
-        dJsonRequest["contents"][0]["parts"][0]["text"] = sDomanda
-        response = requests.post(api_url, json=dJsonRequest, verify = False)
-        if response.status_code == 200:
-            dResponse = response.json()
-            sTestoPrimaRisposta = dResponse['candidates'][0]['content']['parts'][0]['text']
-            print()
-            print(sTestoPrimaRisposta)
-
-    elif iOper == 4:
         print("Buona giornata!")
         iFlag = 1
-
     else:
         print("Operazione non disponibile, riprova.")
 
